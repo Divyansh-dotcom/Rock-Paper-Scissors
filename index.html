@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="app.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
   <title>Rock-paper-scissors</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-  <h4>Open the console to see the score!</h4>
+  <div class="wrapper">
+    <div class="buttons">
+      <button class="rpsButton" value="Rock">✊</button>
+      <button class="rpsButton" value="Paper">🤚</button>
+      <button class="rpsButton" value="Scissors">✌️</button>
+    </div>
+    <div class="resultContainer">
+      <div id="player-score"></div>
+      <div id="hands"></div>
+      <div id="result"></div>
+      <button id='endGameButton'>🔴</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
+
 </html>

@@ -1,66 +1,71 @@
-let humanScore = 0;
-let computerScore = 0;
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-
 function getComputerChoice() {
-  let theRandomChoice = getRandomInt(3);
-  if (theRandomChoice === 0) {
-    return "rock";
-  } else if (theRandomChoice === 1) {
-    return "paper";
-  } else {
-    return "scissors";
-  }
+  let rpsChoices = ["Rock", "Paper", "Scissors"];
+  let computerChoice = rpsChoices[Math.floor(Math.random() * 3)];
+  return computerChoice;
 }
 
-function getHumanChoice() {
-  let choice = prompt("What do you choose:Rock,Paper or Scissors?");
-  choice = choice.toLowerCase();
-  return choice;
+function getResult(playerChoice, computerChoice) {
+  let score;
+
+  if (playerChoice === computerChoice) {
+    score = 0;
+  } else if (playerChoice === "Rock" && computerChoice === "Scissors") {
+    score = 1;
+  } else if (playerChoice === "Paper" && computerChoice === "Rock") {
+    score = 1;
+  } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
+    score = 1;
+  } else {
+    score = -1;
+  }
+
+  return score;
 }
 
-function playRound(humanChoice, computerChoice) {
-  if (humanChoice === "rock" && computerChoice === "paper") {
-    console.log("You lose! Paper beats Rock");
-    computerScore++;
-  } else if (humanChoice === "paper" && computerChoice === "rock") {
-    console.log("You won! Paper beats Rock");
-    humanScore++;
-  } else if (humanChoice === "rock" && computerChoice === "scissors") {
-    console.log("You won! Rock beats Scissors");
-    humanScore++;
-  } else if (humanChoice === "scissors" && computerChoice === "rock") {
-    console.log("You lose! Rock beats Scissors");
-    computerScore++;
-  } else if (humanChoice === "scissors" && computerChoice === "paper") {
-    console.log("You won! Scissors beats Paper");
-    humanScore++;
-  } else if (humanChoice === "paper" && computerChoice === "scissors") {
-    console.log("You lose! Scissors beats Paper");
-    computerScore++;
-  } else {
-    console.log("It's a tie!");
+function showResult(score, playerChoice, computerChoice) {
+  let result = document.getElementById("result");
+  switch (score) {
+    case -1:
+      result.innerText = `You Lose!`;
+      break;
+    case 0:
+      result.innerText = `It's a Draw!`;
+      break;
+    case 1:
+      result.innerText = `You Win!`;
+      break;
   }
+
+  let playerScore = document.getElementById("player-score");
+  let hands = document.getElementById("hands");
+  playerScore.innerText = `${Number(playerScore.innerText) + score}`;
+  hands.innerText = `👱 ${playerChoice} vs 🤖 ${computerChoice}`;
+}
+
+function onClickRPS(playerChoice) {
+  const computerChoice = getComputerChoice();
+  const score = getResult(playerChoice.value, computerChoice);
+  showResult(score, playerChoice.value, computerChoice);
 }
 
 function playGame() {
-  for (let i = 1; i <= 5; i++) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-    console.log(`Computer: ${computerScore}`);
-    console.log(`You: ${humanScore}`);
-  }
-  if (humanScore > computerScore) {
-    console.log("You are the winner!");
-  } else if (humanScore < computerScore) {
-    console.log("You are the loser!");
-  } else {
-    console.log("Match draw!");
-  }
+  let rpsButtons = document.querySelectorAll(".rpsButton");
+
+  rpsButtons.forEach((rpsButton) => {
+    rpsButton.onclick = () => onClickRPS(rpsButton);
+  });
+
+  let endGameButton = document.getElementById("endGameButton");
+  endGameButton.onclick = () => endGame();
 }
+
+function endGame() {
+  let playerScore = document.getElementById("player-score");
+  let hands = document.getElementById("hands");
+  let result = document.getElementById("result");
+  playerScore.innerText = "";
+  hands.innerText = "";
+  result.innerText = "";
+}
+
 playGame();
